@@ -147,7 +147,9 @@ const Page = () => {
             </Box>
           </Stack>
         </Container>
-        {addProductPopup ? <AddProduct open={addProductPopup} handleClose={() => {}} /> : null}
+        {addProductPopup ? (
+          <AddProduct open={addProductPopup} handleClose={() => setAddProductPopup(false)} />
+        ) : null}
       </Box>
     </>
   );

@@ -11,6 +11,7 @@ import {
   Input,
   InputLabel,
 } from "@mui/material";
+import { PRODUCT_FORM_FIELDS, PRODUCT_FORM_ORDER } from "src/static/products";
 
 export const AddProduct = (props) => {
   const { open, handleClose } = props;
@@ -22,16 +23,20 @@ export const AddProduct = (props) => {
       scroll="paper"
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
+      maxWidth="md"
+      fullWidth
     >
       <DialogTitle id="scroll-dialog-title">Product</DialogTitle>
       <DialogContent dividers={scroll === "paper"}>
         <Grid container spacing={2}>
-          {[...new Array(10)].map((data, index) => {
+          {Object.keys(PRODUCT_FORM_FIELDS).map((data) => {
             return (
-              <Grid item key={index} xs={12} sx={{ my: 1, px: 0.25, py: 0.5 }}>
+              <Grid item key={data} xs={12} sx={{ my: 1, px: 0.25, py: 0.5 }}>
                 <FormControl variant="standard">
-                  <InputLabel htmlFor="component-error">Product Name</InputLabel>
-                  <Input id="component-error" aria-describedby="component-error-text" />
+                  <InputLabel htmlFor="component-error">
+                    {PRODUCT_FORM_FIELDS[data].labelName}
+                  </InputLabel>
+                  <Input fullWidth id="component-error" aria-describedby="component-error-text" />
                 </FormControl>
               </Grid>
             );
