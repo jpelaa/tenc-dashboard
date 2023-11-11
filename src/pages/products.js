@@ -13,8 +13,10 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CompanyCard, ProductCard } from "src/sections/products/product-card";
-import { CompaniesSearch, ProductsSearch } from "src/sections/products/products-search";
+import { ProductCard } from "src/sections/products/product-card";
+import { ProductsSearch } from "src/sections/products/products-search";
+import { useState } from "react";
+import { AddProduct } from "src/sections/products/add-product";
 
 const companies = [
   {
@@ -71,80 +73,85 @@ const companies = [
   },
 ];
 
-const Page = () => (
-  <>
-    <Head>
-      <title>Products | Tenc Dashboard</title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8,
-      }}
-    >
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
-          <Stack direction="row" justifyContent="space-between" spacing={4}>
-            <Stack spacing={1}>
-              <Typography variant="h4">Products</Typography>
-              <Stack alignItems="center" direction="row" spacing={1}>
-                <Button
-                  color="inherit"
-                  startIcon={
-                    <SvgIcon fontSize="small">
-                      <ArrowUpOnSquareIcon />
-                    </SvgIcon>
-                  }
-                >
-                  Import
-                </Button>
-                <Button
-                  color="inherit"
-                  startIcon={
-                    <SvgIcon fontSize="small">
-                      <ArrowDownOnSquareIcon />
-                    </SvgIcon>
-                  }
-                >
-                  Export
-                </Button>
+const Page = () => {
+  const [addProductPopup, setAddProductPopup] = useState(false);
+  return (
+    <>
+      <Head>
+        <title>Products | Tenc Dashboard</title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Container maxWidth="xl">
+          <Stack spacing={3}>
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
+              <Stack spacing={1}>
+                <Typography variant="h4">Products</Typography>
+                <Stack alignItems="center" direction="row" spacing={1}>
+                  <Button
+                    color="inherit"
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <ArrowUpOnSquareIcon />
+                      </SvgIcon>
+                    }
+                  >
+                    Import
+                  </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <ArrowDownOnSquareIcon />
+                      </SvgIcon>
+                    }
+                  >
+                    Export
+                  </Button>
+                </Stack>
               </Stack>
+              <div>
+                <Button
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  }
+                  variant="contained"
+                  onClick={() => setAddProductPopup(true)}
+                >
+                  Add
+                </Button>
+              </div>
             </Stack>
-            <div>
-              <Button
-                startIcon={
-                  <SvgIcon fontSize="small">
-                    <PlusIcon />
-                  </SvgIcon>
-                }
-                variant="contained"
-              >
-                Add
-              </Button>
-            </div>
+            <ProductsSearch />
+            <Grid container spacing={3}>
+              {companies.map((company) => (
+                <Grid xs={12} md={6} lg={4} key={company.id}>
+                  <ProductCard company={company} />
+                </Grid>
+              ))}
+            </Grid>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Pagination count={3} size="small" />
+            </Box>
           </Stack>
-          <ProductsSearch />
-          <Grid container spacing={3}>
-            {companies.map((company) => (
-              <Grid xs={12} md={6} lg={4} key={company.id}>
-                <ProductCard company={company} />
-              </Grid>
-            ))}
-          </Grid>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Pagination count={3} size="small" />
-          </Box>
-        </Stack>
-      </Container>
-    </Box>
-  </>
-);
+        </Container>
+        {addProductPopup ? <AddProduct open={addProductPopup} handleClose={() => {}} /> : null}
+      </Box>
+    </>
+  );
+};
 
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
